@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+#app {
+    height: 100vh;
+    background-color: #3cbcfc;
+    cursor: none;
+}
+
+.grid_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    .grid_item {
+        width: var(--grid-item-width);
+        height: 50px;
+        background-color: #fff;
+        background-clip: content-box;
+        padding: 4px;
+        position: relative;
+        z-index:  -5;
+        opacity: 0;
+        will-change: opacity;
+        transition-duration: 0s;
+        transition-property: transform, opacity;
+        &.grid_item_visible {
+            opacity: 1;
+            z-index: 5;
+        }
+
+    }
+}
+
+.score_wrapper {
+    position: absolute;
+    right: 60px;
+    bottom: 20px;
+    width: 180px;
+    height: 40px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+    align-items: center;
+    opacity: 0.6;
+}
+
+
+.ball {
+    position: absolute;
+    width: var(--ball-width);
+    height: var(--ball-width);
+    background-color: #fff;
+    will-change: transform;
+    border-radius: 50%;
+    background-color: red;
+    z-index: 0;
+    left: 0;
+    top: 0;
+    transform-origin: center;
+}
+
+.catcher {
+    position: absolute;
+    width: 180px;
+    height: 10px;
+    bottom: 40px;
+    left: 50%;
+    background-color: #fff;
+    z-index: 10;
+}
+
+:root {
+    --grid-item-width: 10vw;
+    --ball-width: 20px;
+}
