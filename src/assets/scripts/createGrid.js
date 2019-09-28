@@ -25,7 +25,7 @@ function randomColor() {
     return color;
 }
 
-export default function creteGrid() {
+export function createGrid() {
     let gridWrapper = document.getElementById('grid');
     let currentLevel = levels.getCurrentLevel();
     let index =  currentLevel.row *  currentLevel.column;
@@ -36,5 +36,32 @@ export default function creteGrid() {
     }
 
     return Array.from(gridWrapper.childNodes);
-    
+}
+
+export function createGridCoords(nodes) {
+    let matr = [];
+    for (let index in nodes) {
+        let node = nodes[index]
+        let cor = node.getBoundingClientRect();
+        let col = {
+            x0: cor.left,
+            x1: cor.right,
+            y0: cor.top,
+            y1: cor.bottom,
+            node
+        }
+        matr.push(col)
+    }
+
+    return matr;
+}
+
+export function findElem(x, y, nodes) {
+    for (const node of nodes) {
+        if (node.x0 < x && node.x1 > x) {
+            if(node.y0 < y && node.y1 > y) {
+                return node.node;
+            }
+        }
+    }
 }

@@ -1,5 +1,4 @@
 let ball;
-let catcher;
 let catcherTop;
 
 export function stopBall() {
