@@ -23,15 +23,9 @@ body {
         background-color: #fff;
         background-clip: content-box;
         padding: 4px;
-        position: relative;
-        z-index:  -5;
-        opacity: 0;
-        will-change: opacity;
-        transition-duration: 0s;
-        transition-property: transform, opacity;
+        visibility: hidden;
         &.grid_item_visible {
-            opacity: 1;
-            z-index: 5;
+            visibility: visible;
         }
 
     }

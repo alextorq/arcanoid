@@ -40,10 +40,10 @@ function startGame() {
 }
 //tableCoords
 function checkElementFromPoint(x, y) {
-  let el = findElem(x, y, tableCoords) || document.body; //left top
-  let el2 = findElem(x + ballRadius, y, tableCoords) || document.body; //right top
-  let el3 = findElem(x + ballRadius, y + ballRadius, tableCoords) || document.body; //tight bottom
-  let el4 = findElem(x, y + ballRadius, tableCoords) || document.body; //left bottom
+  let el = findElem(x, y, tableCoords); //left top
+  let el2 = findElem(x + ballRadius, y, tableCoords); //right top
+  let el3 = findElem(x + ballRadius, y + ballRadius, tableCoords); //tight bottom
+  let el4 = findElem(x, y + ballRadius, tableCoords); //left bottom
 
  
   let status = false;
