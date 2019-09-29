@@ -1,35 +1,61 @@
-import {createGridCoords, createGrid, findElem} from './createGrid'
-import showScore from './showScore'
-import createCatcher from './createCatcher'
-import {createBall, stopBall} from './createBall'
+import {createGridCoords, createGrid, findElem} from './Grid'
+import {initialScore, showScore} from './showScore'
+import {createCatcher, catcherMove, checkCatcherPosition} from './Catcher'
+import {createBall, stopBall} from './Ball'
 
+let appWrapper = document.getElementById('app');
 
 let ball;
+let ballRadius = 11;
+let ballDiameter = ballRadius * 2;
+
 let maxWidth = window.innerWidth;
 let maxHeight = window.innerHeight;
+
+
+let catcherCoords;
+let cellCoords;
+let allCell;
+
 let randomDirection = Math.random() > 0.5;
-let tableCoords;
 let dx = randomDirection ? -5 : 5;
 let dy = -5;
 let xPos = 0;
 let yPos = 0;
-let allCell;
 
-let id;
-let ballRadius = 11;
+let root = document.documentElement;
+
+let animationID;
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
   let catcher = createCatcher();
-  ball = createBall(ballRadius, catcher);
+  catcherCoords = catcherMove(catcher);
+  ball = createBall(ballDiameter, catcher, appWrapper);
   allCell = createGrid();
-  tableCoords = createGridCoords(allCell)
+  cellCoords = createGridCoords(allCell);
+  initialScore(allCell, appWrapper)
+
+  document.addEventListener('click', () => {
+    stopBall();
+    animationID = startGame();
+  }, {once: true})
+
 })
 
-document.addEventListener('click', () => {
-  stopBall();
-  id = startGame();
-}, {once: true})
+
+function reloadGame() {
+  allCell = createGrid();
+  cellCoords = createGridCoords(allCell);
+  initialScore(allCell, appWrapper);
+  document.addEventListener('click', () => {
+    stopBall();
+    animationID = startGame();
+  }, {once: true})
+
+}
+
 
 
 
@@ -38,16 +64,20 @@ function startGame() {
   yPos = ball.getBoundingClientRect().top;
   return window.requestAnimationFrame(animateBall);
 }
-//tableCoords
-function checkElementFromPoint(x, y) {
-  let el = findElem(x, y, tableCoords); //left top
-  let el2 = findElem(x + ballRadius, y, tableCoords); //right top
-  let el3 = findElem(x + ballRadius, y + ballRadius, tableCoords); //tight bottom
-  let el4 = findElem(x, y + ballRadius, tableCoords); //left bottom
 
- 
+function stopGame(animationID) {
+  cancelAnimationFrame(animationID);
+}
+
+//tableCoords
+function checkCellFromPoint(x, y) {
+  let el = findElem(x, y, cellCoords); //left top
+  let el2 = findElem(x + ballDiameter, y, cellCoords); //right top
+  let el3 = findElem(x + ballDiameter, y + ballDiameter, cellCoords); //tight bottom
+  let el4 = findElem(x, y + ballDiameter, cellCoords); //left bottom
+
   let status = false;
-  let count = 0;
+
 
   let classArray = [
         el.grid_item_visible, 
@@ -59,72 +89,69 @@ function checkElementFromPoint(x, y) {
 
   if (classArray[0]) {
       el.grid_item_visible = false;
-      count++;
       //status = {x: true, y: false};;
   }
   if (classArray[1]) {
     el2.grid_item_visible = false;
-    count++;
     //status = {x: true, y: false};
   }
   if (classArray[2]) {
    
     el3.grid_item_visible = false;
-    count++;
     //status = {x: false, y: true};
   }
   if (classArray[3]) {
     el4.grid_item_visible = false;
-    count++;
     //status = {x: false, y: true};
   }
 
   if (classArray[0] || classArray[3]) {
-    status = {x: false, y: true, count: count};
-  }
-
-  if (classArray[0] && classArray[3] || classArray[2] && classArray[1]) {
-    status = {x: true, y: false, count: count};
-  }
-
-
-  if (el3.catcher) {
     status = {x: false, y: true};
   }
 
-  
+  if (classArray[0] && classArray[3] || classArray[2] && classArray[1]) {
+    status = {x: true, y: false};
+  }
+
   return status;
 
 }
 
 
 function animateBall() {
-    if(xPos + dx > (maxWidth - ballRadius) || xPos + dx < 0) {
+    // оттолкнулся от правой стены
+    if(xPos + dx > (maxWidth - ballDiameter) || xPos + dx < 0) {
         dx = -dx;
     }
-
+    // оттолкнулся от левой стены
     if(yPos + dy < 0) {
         dy = -dy;
     }
 
-    let status = checkElementFromPoint(xPos, yPos)
+    let status = checkCellFromPoint(xPos, yPos);
+    let catchBall = checkCatcherPosition(xPos + dx, yPos + dy, catcherCoords);
 
-    if(yPos + dy > maxHeight - ballRadius) {
+    if (catchBall) {
       dy = -dy;
-      //cancelAnimationFrame(id);
-      //return;
+    }
+
+    if(yPos + dy > maxHeight - ballDiameter) {
+      stopGame();
+      return;
     }
 
     if (status) {
       dx = status.x ? -dx : dx;
       dy = status.y ? -dy : dy;
-      showScore(status.count, allCell);
-      
+      showScore(allCell);
     }
 
     xPos += dx;
     yPos += dy;
 
+    // root.style.setProperty('--ball-x', xPos + "px");
+    // root.style.setProperty('--ball-y', yPos + "px");
+ 
     ball.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
     id = window.requestAnimationFrame(animateBall)
   // 

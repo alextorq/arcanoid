@@ -27,6 +27,7 @@ function randomColor() {
 
 export function createGrid() {
     let gridWrapper = document.getElementById('grid');
+    gridWrapper.innerHTML = '';
     let currentLevel = levels.getCurrentLevel();
     let index =  currentLevel.row *  currentLevel.column;
     setItemWidth(currentLevel.column);
@@ -57,7 +58,8 @@ export function createGridCoords(nodes) {
 }
 
 export function findElem(x, y, nodes) {
-    for (const node of nodes) {
+    for (let i =  0; i< nodes.length; i++) {
+        let node = nodes[i];
         if (node.x0 < x && node.x1 > x) {
             if(node.y0 < y && node.y1 > y) {
                 return node.node;

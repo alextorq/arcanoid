@@ -1,12 +1,6 @@
-import levels from './levels'
+let scoreWrapper;
 
-let scoreWrapper = document.getElementById('score_wrapper');
-
-let currentLevel = levels.getCurrentLevel();
-let all = currentLevel.row *  currentLevel.column;
-
-export default function showScore(count, allCell) {
-    if (!count) {return}
+export function showScore(allCell) {
     setTimeout(() => {
         let all = allCell.length;
         for (let iterator of allCell) {
@@ -18,4 +12,16 @@ export default function showScore(count, allCell) {
         scoreWrapper.innerHTML = `${all}`;
     }, 0)
    
+}
+
+export function initialScore(allCell, appWrapper) {
+    if (!scoreWrapper) {
+        let div = document.createElement('div');
+        div.classList.add('score_wrapper');
+        div.id = 'score_wrapper';
+        appWrapper.appendChild(div)
+        scoreWrapper = div;
+    }
+
+    scoreWrapper.innerHTML = allCell.length;
 }
