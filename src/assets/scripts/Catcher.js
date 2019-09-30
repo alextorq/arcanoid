@@ -41,6 +41,7 @@ export function checkCatcherPosition(x, y, catcherPosition) {
 
     if (y > catcherPosition.y0 && y < catcherPosition.y1) {
         if (x > catcherPosition.x0 && x < catcherPosition.x1) {
+       
             isStatus = true;
         }
        

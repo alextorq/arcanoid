@@ -1,5 +1,5 @@
 import {createGridCoords, createGrid, findElem} from './Grid'
-import {initialScore, showScore} from './showScore'
+import {initialScore, showScore} from './Score'
 import {createCatcher, catcherMove, checkCatcherPosition} from './Catcher'
 import {createBall, stopBall, startMovingBall} from './Ball'
 import gameOver from './gameOver'
@@ -96,20 +96,20 @@ function checkCellFromPoint(x, y) {
 
   if (classArray[0]) {
       el.grid_item_visible = false;
-      //status = {x: true, y: false};;
+      status = {x: true, y: false};;
   }
   if (classArray[1]) {
     el2.grid_item_visible = false;
-    //status = {x: true, y: false};
+    status = {x: true, y: false};
   }
   if (classArray[2]) {
    
     el3.grid_item_visible = false;
-    //status = {x: false, y: true};
+    status = {x: false, y: true};
   }
   if (classArray[3]) {
     el4.grid_item_visible = false;
-    //status = {x: false, y: true};
+    status = {x: false, y: true};
   }
 
   if (classArray[0] || classArray[3]) {
@@ -136,7 +136,7 @@ function animateBall() {
     }
 
     let status = checkCellFromPoint(xPos, yPos);
-    let catchBall = checkCatcherPosition(xPos + dx, yPos + dy, catcherCoords);
+    let catchBall = checkCatcherPosition(xPos + dx, yPos + ballDiameter, catcherCoords);
 
     if (catchBall) {
       dy = -dy;

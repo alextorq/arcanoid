@@ -2,6 +2,8 @@ let ball;
 let catcherTop;
 //let root = document.documentElement;
 let ballRadius;
+let catcherWidth;
+let maxWidth = window.innerWidth;
 
 export function stopBall() {
     document.removeEventListener('mousemove', moveBall)
@@ -9,10 +11,17 @@ export function stopBall() {
 export function startMovingBall(catcherCoords, ballDiameter) {
     ball.style.transform = `translate(${catcherCoords.x0 - ballRadius + (catcherCoords.width / 2)}px, ${catcherCoords.y0 - ballDiameter}px)`;
     document.addEventListener('mousemove', moveBall);
+    catcherWidth = catcherCoords.width;
 }
 
 function moveBall(event) {
-   ball.style.transform = `translate(${event.x - ballRadius}px, ${catcherTop}px)`;
+   if (event.x < (catcherWidth / 2)) {
+     ball.style.transform = `translate(${(catcherWidth / 2) - ballRadius}px, ${catcherTop}px)`;
+   }else {
+    let x = Math.min(event.x - ballRadius, maxWidth - (catcherWidth / 2))
+    ball.style.transform = `translate(${x}px, ${catcherTop}px)`;
+   }
+  
 }
 
 export function createBall(ballDiameter, catcherEl, appWrapper) {
