@@ -5,7 +5,7 @@ let ballRadius;
 let catcherWidth;
 let maxWidth = window.innerWidth;
 
-export function stopBall() {
+export function stopMovingBall() {
     document.removeEventListener('mousemove', moveBall)
 }
 export function startMovingBall(catcherCoords, ballDiameter) {

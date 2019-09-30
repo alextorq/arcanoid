@@ -1,7 +1,7 @@
 import {createGridCoords, createGrid, findElem} from './Grid'
 import {initialScore, showScore} from './Score'
 import {createCatcher, catcherMove, checkCatcherPosition} from './Catcher'
-import {createBall, stopBall, startMovingBall} from './Ball'
+import {createBall, stopMovingBall, startMovingBall} from './Ball'
 import gameOver from './gameOver'
 import gameWin from './win'
 
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initialScore(allCell, appWrapper)
 
   document.addEventListener('click', () => {
-    stopBall();
+    stopMovingBall();
     animationID = startGame();
   }, {once: true})
 
@@ -56,7 +56,7 @@ function reloadGame() {
   startMovingBall(catcherCoords, ballDiameter);
 
   document.addEventListener('click', () => {
-    stopBall();
+    stopMovingBall();
     animationID = startGame();
   }, {once: true});
   dy = -5;
