@@ -13,22 +13,23 @@ export function createCatcher() {
 
 
 export function catcherMove(catcher) {
+    let catcherWidth = catcher.getBoundingClientRect().right - catcher.getBoundingClientRect().left;
     let coords = {
         x0: 0, 
         y0: catcher.getBoundingClientRect().top, 
         y1: catcher.getBoundingClientRect().bottom,
-        width: catcher.getBoundingClientRect().left - catcher.getBoundingClientRect().right
+        width: catcherWidth
     }
     document.addEventListener('mousemove', function(event) {
         if ((event.x - 90) < 0) {
             catcher.style.transform = `translateX(0px)`;
             coords.x0 = 0;
-            coords.x1 = 180;
+            coords.x1 = catcherWidth;
 
         }else {
-            catcher.style.transform = `translateX(${Math.min((event.x - 90), maxWidth - 180)}px)`;
-            coords.x0 = Math.min((event.x - 90), maxWidth - 180)
-            coords.x1 = Math.min((event.x - 90), maxWidth - 180) + 180
+            catcher.style.transform = `translateX(${Math.min((event.x - (catcherWidth / 2)), maxWidth - catcherWidth)}px)`;
+            coords.x0 = Math.min((event.x - (catcherWidth / 2)), maxWidth - catcherWidth)
+            coords.x1 = Math.min((event.x - (catcherWidth / 2)), maxWidth - catcherWidth) + catcherWidth
         }
     })
 

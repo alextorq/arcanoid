@@ -1,3 +1,9 @@
+$color__1: #F38181;
+$color__2: #FCE38A;
+$color__3: #EAFFD0;
+$color__4: #95E1D3;
+
+
 * {
   box-sizing: border-box;
 }
@@ -24,6 +30,7 @@ body {
         background-clip: content-box;
         padding: 4px;
         visibility: hidden;
+        opacity: 1;
         &.grid_item_visible {
             visibility: visible;
         }
@@ -43,6 +50,9 @@ body {
     font-size: 16px;
     align-items: center;
     opacity: 0.6;
+    overflow: hidden;
+    will-change: contents;
+    z-index: 5;
 }
 
 
@@ -50,14 +60,13 @@ body {
     position: absolute;
     width: var(--ball-width);
     height: var(--ball-width);
-    background-color: #fff;
     will-change: transform;
     border-radius: 50%;
     background-color: red;
     z-index: 0;
     left: 0;
     top: 0;
-    transform-origin: center;
+    transform-origin: left top;
 }
 
 .catcher {
@@ -69,6 +78,36 @@ body {
     background-color: #fff;
     z-index: 10;
     will-change: transform;
+    transform-origin: left top;
+}
+
+.veil {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 12;
+    background-color: rgba(#000000, 0.4);
+    cursor: default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    padding: 5vw 10vw;
+    background-color: #fff;
+}
+
+.button {
+    border: none;
+    min-width: 150px;
+    height: 40px;
+    background-color: $color__4;
+    font-weight: 400;
+    cursor: pointer;
+
 }
 
 :root {

@@ -1,17 +1,17 @@
 let scoreWrapper;
 
 export function showScore(allCell) {
-    setTimeout(() => {
-        let all = allCell.length;
-        for (let iterator of allCell) {
-            if (!iterator.grid_item_visible) {
-                iterator.classList.remove('grid_item_visible');
-                all--;
-            }
+    let all = allCell.length;
+    for (let iterator of allCell) {
+        if (!iterator.grid_item_visible) {
+            iterator.classList.remove('grid_item_visible');
+            all--;
         }
+    }
+    setTimeout(() => {
         scoreWrapper.innerHTML = `${all}`;
     }, 0)
-   
+   return all === 0;
 }
 
 export function initialScore(allCell, appWrapper) {

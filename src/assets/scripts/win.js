@@ -1,12 +1,12 @@
 let gameOverWrapper;
 
-export default function gameOver(appWrapper, cb) {
+export default function win(appWrapper, cb) {
     if(!gameOverWrapper) {
         let div = document.createElement('div');
         div.classList.add('veil');
         div.innerHTML = `
             <div class="modal">
-                <h2>Are you looser?</h2>
+                <h2>You are win</h2>
                 <button class="button">Try again</button>
             </div>
         `

@@ -1,5 +1,7 @@
 import levels from './levels'
 
+let gridWrapper;
+
 
 
 function creteItem() {
@@ -25,8 +27,14 @@ function randomColor() {
     return color;
 }
 
-export function createGrid() {
-    let gridWrapper = document.getElementById('grid');
+export function createGrid(appWrapper) {
+    if (!gridWrapper) {
+        let div = document.createElement('div');
+        div.classList.add('grid_wrapper');
+        div.id = 'grid';
+        appWrapper.appendChild(div)
+        gridWrapper = div;
+    }
     gridWrapper.innerHTML = '';
     let currentLevel = levels.getCurrentLevel();
     let index =  currentLevel.row *  currentLevel.column;

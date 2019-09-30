@@ -1,7 +1,9 @@
 import {createGridCoords, createGrid, findElem} from './Grid'
 import {initialScore, showScore} from './showScore'
 import {createCatcher, catcherMove, checkCatcherPosition} from './Catcher'
-import {createBall, stopBall} from './Ball'
+import {createBall, stopBall, startMovingBall} from './Ball'
+import gameOver from './gameOver'
+import gameWin from './win'
 
 let appWrapper = document.getElementById('app');
 
@@ -23,7 +25,7 @@ let dy = -5;
 let xPos = 0;
 let yPos = 0;
 
-let root = document.documentElement;
+//let root = document.documentElement;
 
 let animationID;
 
@@ -33,7 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let catcher = createCatcher();
   catcherCoords = catcherMove(catcher);
   ball = createBall(ballDiameter, catcher, appWrapper);
-  allCell = createGrid();
+  startMovingBall(catcherCoords, ballDiameter);
+  allCell = createGrid(appWrapper);
   cellCoords = createGridCoords(allCell);
   initialScore(allCell, appWrapper)
 
@@ -46,13 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function reloadGame() {
-  allCell = createGrid();
+  allCell = createGrid(appWrapper);
   cellCoords = createGridCoords(allCell);
   initialScore(allCell, appWrapper);
+
+  startMovingBall(catcherCoords, ballDiameter);
+
   document.addEventListener('click', () => {
     stopBall();
     animationID = startGame();
-  }, {once: true})
+  }, {once: true});
+  dy = -5;
 
 }
 
@@ -137,13 +144,20 @@ function animateBall() {
 
     if(yPos + dy > maxHeight - ballDiameter) {
       stopGame();
+      gameOver(appWrapper, reloadGame);
       return;
     }
 
     if (status) {
       dx = status.x ? -dx : dx;
       dy = status.y ? -dy : dy;
-      showScore(allCell);
+      let isWin = showScore(allCell);
+
+      if (isWin) {
+        stopGame();
+        gameWin(appWrapper, reloadGame);
+        return;
+      }
     }
 
     xPos += dx;
@@ -153,7 +167,7 @@ function animateBall() {
     // root.style.setProperty('--ball-y', yPos + "px");
  
     ball.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
-    id = window.requestAnimationFrame(animateBall)
+    animationID = window.requestAnimationFrame(animateBall)
   // 
 }
 
