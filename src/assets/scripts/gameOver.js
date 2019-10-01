@@ -1,5 +1,11 @@
 let gameOverWrapper;
 
+
+/**
+ * 
+ * @param {object} appWrapper general wrapper 
+ * @param {Function} cb 
+ */
 export default function gameOver(appWrapper, cb) {
     if(!gameOverWrapper) {
         let div = document.createElement('div');

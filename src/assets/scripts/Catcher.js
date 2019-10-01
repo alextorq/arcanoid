@@ -1,5 +1,10 @@
 let maxWidth = window.innerWidth;
 
+
+/**
+ * 
+ * @return {object}
+ */
 export function createCatcher() {
     let catcher = document.createElement('div');
     catcher.classList.add('catcher');
@@ -10,8 +15,11 @@ export function createCatcher() {
 }
 
 
-
-
+/**
+ * 
+ * @param {object} catcher 
+ * @return {object}
+ */
 export function catcherMove(catcher) {
     let catcherWidth = catcher.getBoundingClientRect().right - catcher.getBoundingClientRect().left;
     let coords = {
@@ -36,6 +44,13 @@ export function catcherMove(catcher) {
     return coords;
 }
 
+/**
+ * 
+ * @param {number} x 
+ * @param {number} y 
+ * @param {object} catcherPosition 
+ * @return {Boolean}
+ */
 export function checkCatcherPosition(x, y, catcherPosition) {
     let isStatus = false;
 

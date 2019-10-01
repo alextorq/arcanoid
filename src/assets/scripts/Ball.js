@@ -8,12 +8,22 @@ let maxWidth = window.innerWidth;
 export function stopMovingBall() {
     document.removeEventListener('mousemove', moveBall)
 }
+
+/**
+ * 
+ * @param {object} catcherCoords 
+ * @param {number} ballDiameter 
+ */
 export function startMovingBall(catcherCoords, ballDiameter) {
     ball.style.transform = `translate(${catcherCoords.x0 - ballRadius + (catcherCoords.width / 2)}px, ${catcherCoords.y0 - ballDiameter}px)`;
     document.addEventListener('mousemove', moveBall);
     catcherWidth = catcherCoords.width;
 }
 
+/**
+ * not pure
+ * @param {object} event 
+ */
 function moveBall(event) {
    if (event.x < (catcherWidth / 2)) {
      ball.style.transform = `translate(${(catcherWidth / 2) - ballRadius}px, ${catcherTop}px)`;
@@ -24,6 +34,13 @@ function moveBall(event) {
   
 }
 
+/**
+ * 
+ * @param {number} ballDiameter 
+ * @param {object} catcherEl 
+ * @param {object} appWrapper 
+ * @return {object}
+ */
 export function createBall(ballDiameter, catcherEl, appWrapper) {
     catcherTop = catcherEl.getBoundingClientRect().top - ballDiameter;
     ball = document.createElement('div');

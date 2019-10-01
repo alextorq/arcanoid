@@ -76,7 +76,13 @@ function stopGame(animationID) {
   cancelAnimationFrame(animationID);
 }
 
-//tableCoords
+
+/**
+ * 
+ * @param {number} x 
+ * @param {number} y 
+ * @return {Boolean|object}
+ */
 function checkCellFromPoint(x, y) {
   let el = findElem(x, y, cellCoords); //left top
   let el2 = findElem(x + ballDiameter, y, cellCoords); //right top
@@ -96,7 +102,7 @@ function checkCellFromPoint(x, y) {
 
   if (classArray[0]) {
       el.grid_item_visible = false;
-      status = {x: true, y: false};;
+      status = {x: true, y: false};
   }
   if (classArray[1]) {
     el2.grid_item_visible = false;
@@ -124,7 +130,10 @@ function checkCellFromPoint(x, y) {
 
 }
 
-
+//На каждый frame расчитываем позицию мяча если он
+// коснулся стенки но меняем направление движения
+// на противоположенное если коснулся ячейки то 
+// перерасчитываем оставшееся ячейки и скрываем текущую 
 function animateBall() {
     // оттолкнулся от правой стены
     if(xPos + dx > (maxWidth - ballDiameter) || xPos + dx < 0) {

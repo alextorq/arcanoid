@@ -3,7 +3,9 @@ import levels from './levels'
 let gridWrapper;
 
 
-
+/**
+ * @return {object}
+ */
 function creteItem() {
     let element = document.createElement('div');
     element.classList.add('grid_item');
@@ -13,13 +15,20 @@ function creteItem() {
     return element;
 }
 
+
+/**
+ * 
+ * @param {number} column 
+ */
 function setItemWidth(column) {
     let root = document.documentElement;
     let width = 100 / column;
     root.style.setProperty('--grid-item-width', width + "vw");
 }
 
-
+/**
+ * @return {string}
+ */
 function randomColor() {
     let colors = ['#F38181', '#FCE38A', '#EAFFD0', '#95E1D3'];
     let random = Math.floor(Math.random() * colors.length);
@@ -27,6 +36,11 @@ function randomColor() {
     return color;
 }
 
+/**
+ * 
+ * @param {object} appWrapper 
+ * @return {array}
+ */
 export function createGrid(appWrapper) {
     if (!gridWrapper) {
         let div = document.createElement('div');
@@ -47,6 +61,11 @@ export function createGrid(appWrapper) {
     return Array.from(gridWrapper.childNodes);
 }
 
+/**
+ * 
+ * @param {array} nodes
+ * @return {array} 
+ */
 export function createGridCoords(nodes) {
     let matr = [];
     for (let index in nodes) {
@@ -65,6 +84,13 @@ export function createGridCoords(nodes) {
     return matr;
 }
 
+/**
+ * 
+ * @param {number} x 
+ * @param {number} y 
+ * @param {array} nodes 
+ * @return {object}
+ */
 export function findElem(x, y, nodes) {
     for (let i =  0; i< nodes.length; i++) {
         let node = nodes[i];
