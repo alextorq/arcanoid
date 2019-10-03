@@ -9,7 +9,7 @@ let currentLevel = levels.getCurrentLevel();
  * @return {object}
  */
 export function drawCatcher(ctx, x) {
-    let width = 220;
+    let width = 180;
     let height = currentLevel.catcherPositionBottom - currentLevel.catcherPositionTop;
     ctx.fillStyle = '#FCE38A';
     x = Math.min(x, maxWidth -(width / 2));
@@ -27,6 +27,18 @@ export function drawCatcher(ctx, x) {
     }
 }
 
+function calcCof(xBall, catcherPosition) {
+    let start = catcherPosition.x0;
+    let end = catcherPosition.half;
+    if (xBall > catcherPosition.half) {
+        start = catcherPosition.half;
+        end = catcherPosition.x1;
+        return (xBall - start) / ((end - start) / 100)
+    }
+  
+    return -(end - xBall) / ((end - start) / 100)
+}
+
 /**
  * 
  * @param {number} x 
@@ -38,7 +50,7 @@ export function checkCatcherPosition(x, y, catcherPosition) {
     let isStatus = false;
     if (y > catcherPosition.y0 && y < catcherPosition.y1) {
         if (x > catcherPosition.x0 && x < catcherPosition.x1) {
-            isStatus = true;
+            isStatus = calcCof(x, catcherPosition);
         }
     }
     return isStatus;

@@ -9,6 +9,7 @@ let currentLevel = levels.getCurrentLevel();
 
 let maxWidth = window.innerWidth;
 let maxHeight = window.innerHeight;
+let catchCof = 0;
 
 var canvas = document.getElementById('arcanoid');
 var ctx = canvas.getContext('2d');
@@ -26,7 +27,7 @@ canvas.addEventListener('mousemove' , (event) => {
 
 let appWrapper = document.getElementById('app');
 
-let ballRadius = 11;
+let ballRadius = 8;
 
 
 let catcherCoords;
@@ -62,6 +63,13 @@ function reloadGame() {
 
 }
 
+
+function calcSwitch(cof) {
+  let max = 10;
+  return  (max * cof)  / 100;
+
+
+}
 
 function startGame() {
   return window.requestAnimationFrame(animateBall);
@@ -138,6 +146,8 @@ function initialGame() {
 function animateBall() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+
+
     // оттолкнулся от правой стены
     if(xPos + dx > (maxWidth - ballRadius) || xPos + dx < 0) {
         dx = -dx;
@@ -149,10 +159,6 @@ function animateBall() {
     let status = checkCellFromPoint(xPos, yPos);
     catcherCoords = drawCatcher(ctx, mouseX);
 
-    let catchPos = checkCatcherPosition(xPos, yPos + ballRadius, catcherCoords);
-    if(catchPos) {
-      dy = -dy;
-    }
 
     if(yPos + dy > maxHeight + ballRadius) {
       drawGrid(ctx, allCell)
@@ -173,6 +179,15 @@ function animateBall() {
         gameWin(appWrapper, reloadGame);
         return
       }
+    }
+
+
+
+    let catchPos = checkCatcherPosition(xPos, yPos + ballRadius, catcherCoords);
+    if(catchPos) {
+      dy = -dy;
+      dx = calcSwitch(catchPos);
+
     }
    
     xPos += dx;
