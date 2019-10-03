@@ -9,10 +9,8 @@ let scoreWrapper;
 export function showScore(allCell) {
     let all = allCell.length;
     for (let iterator of allCell) {
-        if (!iterator.grid_item_visible && !iterator.check) {
-            iterator.classList.remove('grid_item_visible');
+        if (!iterator.visible) {
             all--;
-            iterator.check = true;
         }
     }
     setTimeout(() => {
@@ -26,7 +24,7 @@ export function showScore(allCell) {
  * @param {array} allCell 
  * @param {object} appWrapper 
  */
-export function initialScore(allCell, appWrapper) {
+export function initialScore(appWrapper, allCell) {
     if (!scoreWrapper) {
         let div = document.createElement('div');
         div.classList.add('score_wrapper');

@@ -15,28 +15,15 @@ body {
 }
 
 #app {
-    height: 100vh;
-    background-color: #3cbcfc;
+  
+    //background-color: #3cbcfc;
     cursor: none;
 }
-
-.grid_wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    .grid_item {
-        width: var(--grid-item-width);
-        height: 50px;
-        background-color: #fff;
-        background-clip: content-box;
-        padding: 4px;
-        visibility: hidden;
-        opacity: 1;
-        &.grid_item_visible {
-            visibility: visible;
-        }
-
-    }
+#arcanoid {
+    height: 100vh;
+    width: 100vw;
 }
+
 
 .score_wrapper {
     position: absolute;
@@ -44,7 +31,7 @@ body {
     bottom: 20px;
     width: 180px;
     height: 40px;
-    background-color: #fff;
+    background-color: grey;
     display: flex;
     justify-content: center;
     font-size: 16px;
@@ -53,33 +40,9 @@ body {
     overflow: hidden;
     will-change: contents;
     z-index: 5;
+    color: #fff;
 }
 
-
-.ball {
-    position: absolute;
-    width: var(--ball-width);
-    height: var(--ball-width);
-    will-change: transform;
-    border-radius: 50%;
-    background-color: red;
-    z-index: 0;
-    left: 0;
-    top: 0;
-    transform-origin: left top;
-}
-
-.catcher {
-    position: absolute;
-    width: 180px;
-    height: 10px;
-    bottom: 40px;
-    left: 0;
-    background-color: #fff;
-    z-index: 10;
-    will-change: transform;
-    transform-origin: left top;
-}
 
 .veil {
     position: fixed;
@@ -108,10 +71,4 @@ body {
     font-weight: 400;
     cursor: pointer;
 
-}
-
-:root {
-    --grid-item-width: 10vw;
-    --ball-width: 20px;
- 
 }

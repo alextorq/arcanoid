@@ -1,6 +1,5 @@
 let gameOverWrapper;
 
-
 /**
  * 
  * @param {object} appWrapper general wrapper 

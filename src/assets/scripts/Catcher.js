@@ -1,18 +1,6 @@
 let maxWidth = window.innerWidth;
-
-
-/**
- * 
- * @return {object}
- */
-export function createCatcher() {
-    let catcher = document.createElement('div');
-    catcher.classList.add('catcher');
-    catcher.catcher =  true;
-    let app = document.getElementById('app');
-    app.appendChild(catcher);
-    return catcher;
-}
+import levels from './levels'
+let currentLevel = levels.getCurrentLevel();
 
 
 /**
@@ -20,28 +8,23 @@ export function createCatcher() {
  * @param {object} catcher 
  * @return {object}
  */
-export function catcherMove(catcher) {
-    let catcherWidth = catcher.getBoundingClientRect().right - catcher.getBoundingClientRect().left;
-    let coords = {
-        x0: 0, 
-        y0: catcher.getBoundingClientRect().top, 
-        y1: catcher.getBoundingClientRect().bottom,
-        width: catcherWidth
+export function drawCatcher(ctx, x) {
+    let width = 220;
+    let height = currentLevel.catcherPositionBottom - currentLevel.catcherPositionTop;
+    ctx.fillStyle = '#FCE38A';
+    x = Math.min(x, maxWidth -(width / 2));
+    if(x < (width / 2)) {
+        x = (width / 2)
     }
-    document.addEventListener('mousemove', function(event) {
-        if ((event.x - 90) < 0) {
-            catcher.style.transform = `translateX(0px)`;
-            coords.x0 = 0;
-            coords.x1 = catcherWidth;
+    ctx.fillRect(x- (width / 2), currentLevel.catcherPositionTop, width, height);
 
-        }else {
-            catcher.style.transform = `translateX(${Math.min((event.x - (catcherWidth / 2)), maxWidth - catcherWidth)}px)`;
-            coords.x0 = Math.min((event.x - (catcherWidth / 2)), maxWidth - catcherWidth)
-            coords.x1 = Math.min((event.x - (catcherWidth / 2)), maxWidth - catcherWidth) + catcherWidth
-        }
-    })
-
-    return coords;
+    return {
+        x0: x - (width / 2), 
+        y0: currentLevel.catcherPositionTop, 
+        y1: currentLevel.catcherPositionBottom, 
+        half: x,
+        x1: x + (width / 2)
+    }
 }
 
 /**
@@ -53,13 +36,10 @@ export function catcherMove(catcher) {
  */
 export function checkCatcherPosition(x, y, catcherPosition) {
     let isStatus = false;
-
     if (y > catcherPosition.y0 && y < catcherPosition.y1) {
         if (x > catcherPosition.x0 && x < catcherPosition.x1) {
-       
             isStatus = true;
         }
-       
     }
     return isStatus;
 }
